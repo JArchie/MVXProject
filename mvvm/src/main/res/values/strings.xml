@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">mvvm</string>
+    <string name="empty_layout">对不起，暂时还没有数据哦</string>
+</resources>

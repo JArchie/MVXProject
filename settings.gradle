@@ -1,0 +1,2 @@
+include ':mvc', ':mvp', ':mvvm'
+rootProject.name='MVXProject'
