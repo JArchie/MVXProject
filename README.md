@@ -5,7 +5,7 @@ Android MVX项目架构案例<br>
 <hr>
 <h2>MVC</h2>
 MVC全称Model View Controller，也就是模型（model）-视图（view）-控制器（controller），M是指业务模型，V是指用户界面，C则是控制器。其中 View 层其实就是程序的 UI 界面，用于向用户展示数据以及接收用户的输入，而 Model 层就是 JavaBean 实体类，用于保存实例数据，Controller 控制器用于更新 UI 界面和数据实例。<br>
-![login](https://github.com/gJArchie/MVXProject/raw/master/images/mvc.png)
+![login](https://github.com/JArchie/MVXProject/raw/master/images/mvc.png)
 ![image]( https://github.com/JArchie/MVXProject/blob/master/images/mvc.png)
 <h2>MVP</h2>
 MVP模式是在MVC的基础上做了改进，最直接的思想是为了解耦。MVP是一种经典的模式，M代表Model，V代表View，P则是Presenter（Model和View之间的桥梁）。MVP模式的核心思想是把Activity中的UI逻辑抽象成View接口，把业务逻辑抽象成Presenter接口，Model类还是原来的Model类。<br>
