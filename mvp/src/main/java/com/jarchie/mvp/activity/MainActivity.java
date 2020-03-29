@@ -17,7 +17,12 @@ import com.jarchie.mvp.presenter.WxArticlePresenter;
 import com.jarchie.mvp.view.WxArticleView;
 
 import java.util.List;
-
+/**
+ * 作者: 乔布奇
+ * 日期: 2020-03-17 09:50
+ * 邮箱: jarchie520@gmail.com
+ * 描述: 主Activity页面
+ */
 @SuppressLint("NewApi")
 public class MainActivity extends AppCompatActivity implements WxArticleView {
     private RecyclerView mRecycler;
@@ -82,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements WxArticleView {
 
     @Override
     public void onLoadEmpty() {
-
+        //可以显示个空布局，这里暂未处理
     }
 
     @Override

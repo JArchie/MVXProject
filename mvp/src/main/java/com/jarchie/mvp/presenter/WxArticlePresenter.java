@@ -17,7 +17,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  */
 public class WxArticlePresenter extends BasePresenter<WxArticleView> {
 
-
     public WxArticlePresenter(LifecycleOwner owner) {
         super(owner);
     }

@@ -19,7 +19,10 @@ import com.jarchie.mvvm.viewmodel.MainViewModel;
 import java.util.List;
 
 /**
- * 主Activity页面
+ * 作者: 乔布奇
+ * 日期: 2020-03-17 09:35
+ * 邮箱: jarchie520@gmail.com
+ * 描述: 主Activity页面
  */
 public class MainActivity extends AppCompatActivity implements MainViewModel.DataListener {
     private LoadingView mLoadingView;

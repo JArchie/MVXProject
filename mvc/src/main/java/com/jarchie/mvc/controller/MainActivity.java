@@ -23,8 +23,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import rxhttp.wrapper.param.RxHttp;
 
 /**
- * 项目主页
- * MVC模式
+ * 作者: 乔布奇
+ * 日期: 2020-03-16 09:18
+ * 邮箱: jarchie520@gmail.com
+ * 描述: MVC模式搭建项目主页
  */
 public class MainActivity extends AppCompatActivity {
     private LoadingView mLoadingView;
