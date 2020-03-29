@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jarchie.mvc.R;
 import com.jarchie.mvc.adapter.WxArticleAdapter;
-import com.jarchie.mvc.model.WxArticleBean;
 import com.jarchie.mvc.constants.Constant;
+import com.jarchie.mvc.model.WxArticleBean;
 import com.jarchie.mvc.view.LoadingView;
 import com.rxjava.rxlife.RxLife;
 
