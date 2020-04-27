@@ -14,6 +14,7 @@ import com.jarchie.mvvm.adapter.WxArticleAdapter;
 import com.jarchie.mvvm.customview.LoadingView;
 import com.jarchie.mvvm.databinding.ActivityMainBinding;
 import com.jarchie.mvvm.model.WxArticleBean;
+import com.jarchie.mvvm.utils.LaunchTime;
 import com.jarchie.mvvm.viewmodel.MainViewModel;
 
 import java.util.List;
@@ -27,7 +28,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements MainViewModel.DataListener {
     private LoadingView mLoadingView;
     private ActivityMainBinding binding;
-    private WxArticleAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +40,8 @@ public class MainActivity extends AppCompatActivity implements MainViewModel.Dat
 
     @Override
     public void onDataChanged(List<WxArticleBean.DataBean.DatasBean> list) {
-        if (mAdapter == null){
-            mAdapter = new WxArticleAdapter(this,list);
-            binding.mRecycler.setAdapter(mAdapter);
-        }else {
-            mAdapter.notifyDataSetChanged();
-        }
+        WxArticleAdapter mAdapter = new WxArticleAdapter(this,list);
+        binding.mRecycler.setAdapter(mAdapter);
         binding.mRecycler.setLayoutManager(new LinearLayoutManager(this));
         binding.mRecycler.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
     }
@@ -66,4 +62,9 @@ public class MainActivity extends AppCompatActivity implements MainViewModel.Dat
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        LaunchTime.endRecord("onWindowFocusChanged");
+    }
 }

@@ -13,11 +13,9 @@ import com.jarchie.mvc.R;
 import com.jarchie.mvc.adapter.WxArticleAdapter;
 import com.jarchie.mvc.constants.Constant;
 import com.jarchie.mvc.model.WxArticleBean;
+import com.jarchie.mvc.utils.LaunchTime;
 import com.jarchie.mvc.view.LoadingView;
 import com.rxjava.rxlife.RxLife;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import rxhttp.wrapper.param.RxHttp;
@@ -30,15 +28,15 @@ import rxhttp.wrapper.param.RxHttp;
  */
 public class MainActivity extends AppCompatActivity {
     private LoadingView mLoadingView;
+    private RecyclerView mRecycler;
     private WxArticleAdapter mAdapter;
-    private List<WxArticleBean.DataBean.DatasBean> mList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initView();
-        initListener();
+        mRecycler = findViewById(R.id.mRecycler);
+        mLoadingView = new LoadingView(this);
         initData();
     }
 
@@ -53,28 +51,18 @@ public class MainActivity extends AppCompatActivity {
                 .as(RxLife.as(this))
                 .subscribe(wxArticleBean -> {
                     if (wxArticleBean.getData().getDatas().size() > 0) {
-                        mList.addAll(wxArticleBean.getData().getDatas());
-                        mAdapter.notifyDataSetChanged();
+                        mAdapter = new WxArticleAdapter(this, wxArticleBean.getData().getDatas());
+                        mRecycler.setAdapter(mAdapter);
+                        mRecycler.setLayoutManager(new LinearLayoutManager(this));
+                        mRecycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+                        mAdapter.setOnItemClickListener((bean, view, position) -> Toast.makeText(this, "当前点击的是第" + (position + 1) + "个条目", Toast.LENGTH_SHORT).show());
                     }
                 }, throwable -> Toast.makeText(MainActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
-    //初始化点击事件
-    private void initListener() {
-        mAdapter.setOnItemClickListener((bean, view, position) -> Toast.makeText(this, "当前点击的是第" + (position + 1) + "个条目", Toast.LENGTH_SHORT).show());
-    }
-
-    //初始化View
-    private void initView() {
-        RecyclerView mRecycler = findViewById(R.id.mRecycler);
-        mLoadingView = new LoadingView(this);
-        if (mAdapter == null) {
-            mAdapter = new WxArticleAdapter(this, mList);
-            mRecycler.setAdapter(mAdapter);
-        } else {
-            mAdapter.notifyDataSetChanged();
-        }
-        mRecycler.setLayoutManager(new LinearLayoutManager(this));
-        mRecycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        LaunchTime.endRecord("onWindowFocusChanged");
     }
 }

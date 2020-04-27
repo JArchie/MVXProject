@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,8 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jarchie.mvc.R;
-import com.jarchie.mvc.model.WxArticleBean;
 import com.jarchie.mvc.interfaces.OnItemClickListener;
+import com.jarchie.mvc.model.WxArticleBean;
+import com.jarchie.mvc.utils.LaunchTime;
 
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class WxArticleAdapter extends RecyclerView.Adapter<WxArticleAdapter.WxAr
 
     private Context mContext;
     private List<WxArticleBean.DataBean.DatasBean> mList;
+    private boolean mHasRecorded;
 
     public WxArticleAdapter(Context context, List<WxArticleBean.DataBean.DatasBean> list) {
         this.mContext = context;
@@ -51,6 +54,18 @@ public class WxArticleAdapter extends RecyclerView.Adapter<WxArticleAdapter.WxAr
 
     @Override
     public void onBindViewHolder(@NonNull final WxArticleHolder holder, final int position) {
+        if (position ==0 && !mHasRecorded){
+            mHasRecorded = true;
+            holder.mAllLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    holder.mAllLayout.getViewTreeObserver().removeOnPreDrawListener(this);
+                    LaunchTime.endRecord("FirstShow");
+                    return true;
+                }
+            });
+        }
+
         final WxArticleBean.DataBean.DatasBean bean = mList.get(position);
         holder.mTitle.setText(Html.fromHtml(TextUtils.isEmpty(bean.getTitle()) ? "暂无" : bean.getTitle())); //标题
         holder.mSource.setText(TextUtils.isEmpty(

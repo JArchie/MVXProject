@@ -3,6 +3,7 @@ package com.jarchie.mvvm.adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jarchie.mvvm.R;
 import com.jarchie.mvvm.databinding.ItemLayoutBinding;
 import com.jarchie.mvvm.model.WxArticleBean;
+import com.jarchie.mvvm.utils.LaunchTime;
 import com.jarchie.mvvm.viewmodel.ItemVIewModel;
 
 import java.util.List;
@@ -25,6 +27,7 @@ public class WxArticleAdapter extends RecyclerView.Adapter<WxArticleAdapter.WxAr
 
     private Context mContext;
     private List<WxArticleBean.DataBean.DatasBean> mList;
+    private boolean mHasRecorded;
 
     public WxArticleAdapter(Context context, List<WxArticleBean.DataBean.DatasBean> list) {
         this.mContext = context;
@@ -40,6 +43,17 @@ public class WxArticleAdapter extends RecyclerView.Adapter<WxArticleAdapter.WxAr
 
     @Override
     public void onBindViewHolder(@NonNull final WxArticleHolder holder, final int position) {
+        if (position ==0 && !mHasRecorded){
+            mHasRecorded = true;
+            holder.binding.mAllLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    holder.binding.mAllLayout.getViewTreeObserver().removeOnPreDrawListener(this);
+                    LaunchTime.endRecord("FirstShow");
+                    return true;
+                }
+            });
+        }
         final WxArticleBean.DataBean.DatasBean bean = mList.get(position);
         bean.setPosition(position);
         holder.bindData(bean);
