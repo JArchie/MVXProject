@@ -2,6 +2,7 @@ package com.jarchie.mvc.controller;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,10 +10,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jarchie.lib_common.dialog.CommonDialog;
 import com.jarchie.mvc.R;
 import com.jarchie.mvc.adapter.WxArticleAdapter;
 import com.jarchie.mvc.constants.Constant;
 import com.jarchie.mvc.model.WxArticleBean;
+import com.jarchie.mvc.utils.DensityUtil;
 import com.jarchie.mvc.utils.LaunchTime;
 import com.jarchie.mvc.view.LoadingView;
 import com.rxjava.rxlife.RxLife;
@@ -55,7 +58,35 @@ public class MainActivity extends AppCompatActivity {
                         mRecycler.setAdapter(mAdapter);
                         mRecycler.setLayoutManager(new LinearLayoutManager(this));
                         mRecycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-                        mAdapter.setOnItemClickListener((bean, view, position) -> Toast.makeText(this, "当前点击的是第" + (position + 1) + "个条目", Toast.LENGTH_SHORT).show());
+                        mAdapter.setOnItemClickListener((bean, view, position) -> {
+                            if (position == 0){
+                                CommonDialog dialog = new CommonDialog.Builder(MainActivity.this)
+                                        .setContentView(R.layout.dialog_test_0)
+                                        .setCancelable(true)
+                                        .fromBottom(true)
+                                        .fullWidth()
+                                        .setText(R.id.mTitle,"Android高级进阶")
+                                        .create();
+                                dialog.setOnclickListener(R.id.mConfirm, v -> {
+                                    Toast.makeText(MainActivity.this,"点击确定了",Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+                                });
+                                dialog.setOnclickListener(R.id.mCancel, v -> {
+                                    Toast.makeText(MainActivity.this,"点击取消了",Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+                                });
+                                dialog.show();
+                            }else if (position == 1){
+                                new CommonDialog.Builder(MainActivity.this)
+                                        .setContentView(R.layout.dialog_test_1)
+                                        .setWidthAndHeight(DensityUtil.dp2px(300), LinearLayout.LayoutParams.WRAP_CONTENT)
+                                        .addDefaultAnimation()
+                                        .create()
+                                        .show();
+                            }else {
+                                Toast.makeText(MainActivity.this, "当前点击的是第" + (position + 1) + "个条目", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }, throwable -> Toast.makeText(MainActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show());
     }
