@@ -2,6 +2,7 @@ package com.jarchie.mvc.controller;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jarchie.lib_common.dialog.CommonDialog;
+import com.jarchie.lib_common.titlebar.DefaultTitleBar;
 import com.jarchie.mvc.R;
 import com.jarchie.mvc.adapter.WxArticleAdapter;
 import com.jarchie.mvc.constants.Constant;
@@ -38,6 +40,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        new DefaultTitleBar.Builder(this)
+                .setTitle("玩安卓")
+                .setRightIcon(R.drawable.share)
+                .setRightClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(MainActivity.this,"鸿洋牛逼",Toast.LENGTH_LONG).show();
+                    }
+                })
+                .build();
         mRecycler = findViewById(R.id.mRecycler);
         mLoadingView = new LoadingView(this);
         initData();
